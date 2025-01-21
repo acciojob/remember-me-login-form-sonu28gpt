@@ -13,7 +13,10 @@ function exist(){
 		}
 }
 existBtn.addEventListener('click',()=>{
-  alert("Logged in as .");
+	  let userDetail=(localStorage.getItem('user'))?localStorage.getItem('user'):'{}';
+        // console.log(typeof userDetail);
+        userDetail=JSON.parse(userDetail)
+  alert(`Logged in as ${userDetail.username}`);
 })
 
 let form=document.querySelector('form');
@@ -23,7 +26,11 @@ form.addEventListener('submit',(e)=>{
   e.preventDefault();
   let data=new FormData(form);
   let dataObj=Object.fromEntries(data);
-  console.log(dataObj);
+	let {username ,password}=dataObj;
+    form.reset();
+	  if(!username || !password){
+		  return ;
+	  }
     if(dataObj?.check){
       console.log('hi');
       localStorage.setItem('user',JSON.stringify(dataObj));
@@ -32,9 +39,8 @@ form.addEventListener('submit',(e)=>{
       localStorage.clear();
       // existBtn.style.display='none';
     }
-    alert('Logged in as .');
+    alert(`Logged in as ${username}`);
     exist();
-    form.reset();
 })
    
 exist();
